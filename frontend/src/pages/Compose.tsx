@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { composeDraft, createMemory, type ComposeResult } from "../lib/api";
 import MarkdownField from "../components/MarkdownField";
+import Markdown from "../components/Markdown";
 
 const KINDS = [
   { v: "press_release", l: "Press release" },
@@ -103,7 +104,7 @@ export default function Compose() {
                     <span className={`badge kind-${m.kind}`}>{m.kind_display}</span>
                     {m.similarity != null && <span className="repo-sim">{Math.round(m.similarity * 100)}% match</span>}
                   </div>
-                  <p className="sug-text">{m.response_text}</p>
+                  <div className="sug-text"><Markdown text={m.response_text} /></div>
                   <button className="sug-use" onClick={() => setText(m.response_text)}>Use this wording</button>
                 </div>
               ))}

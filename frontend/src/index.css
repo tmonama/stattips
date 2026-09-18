@@ -1455,3 +1455,13 @@ button {
 @media (max-width: 720px) {
   .pt-center { position: static; transform: none; order: 3; width: 100%; justify-content: center; display: flex; margin-top: 10px; }
 }
+
+.sug-text { margin: 0 0 10px; font-size: 14px; line-height: 1.5; color: var(--ink); }
+.sug-text p { margin: 0 0 8px; } .sug-text p:last-child { margin-bottom: 0; }
+.sug-text h1, .sug-text h2, .sug-text h3 { font-size: 15px; font-weight: 700; margin: 8px 0 4px; }
+
+.mdfield-toolbar { display: flex; align-items: center; gap: 4px; padding: 6px 8px; border-top: 1px solid var(--border); background: var(--bg-subtle); flex-wrap: wrap; }
+.mdfield-toolbar button { background: transparent; border: 1px solid transparent; color: var(--ink-muted); font: inherit; font-size: 13px; line-height: 1; padding: 6px 9px; border-radius: 7px; cursor: pointer; }
+.mdfield-toolbar button:hover { background: var(--bg-surface); border-color: var(--border); color: var(--ink); }
+.mdfield-toolbar button b, .mdfield-toolbar button i { font-size: 14px; }
+.mdfield-div { width: 1px; align-self: stretch; background: var(--border); margin: 2px 4px; }
