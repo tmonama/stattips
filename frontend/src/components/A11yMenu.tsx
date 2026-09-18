@@ -10,7 +10,7 @@ export default function A11yMenu() {
 
   return (
     <details className="a11y">
-      <summary aria-label="Accessibility options"><MdAccessible size={14} color="#ffff" /> Access</summary>
+      <summary aria-label="Accessibility options"><MdAccessible size={14} color="#000000" /> Access</summary>
       <div className="a11y-panel" role="group" aria-label="Accessibility settings">
         <div className="a11y-group">
           <h4>Text size</h4>

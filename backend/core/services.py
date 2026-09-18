@@ -24,6 +24,10 @@ LANG_NAMES = {"en": "English", "af": "Afrikaans", "zu": "isiZulu", "xh": "isiXho
 def _u(user):
     return user if getattr(user, "is_authenticated", False) else None
 
+def _is_refusal(raw):
+    norm = raw.strip().upper().replace(" ", "_")
+    return "INSUFFICIENT_SOURCES" in norm or len(raw.strip()) < 3
+
 
 def log(actor, action, obj=None, **meta):
     AuditLog.objects.create(
@@ -60,12 +64,11 @@ def answer_public(question, user=None, lang="en"):
     best = max((retrieve(c) for c in candidates),
                key=lambda rs: rs[0]["similarity"] if rs else 0)
     retrieved = best
-    reuse = find_reuse(candidates[-1])
     strong = [r for r in retrieved if r["similarity"] >= CITE_THRESHOLD][:3] or retrieved[:3]
     top = retrieved[0]["similarity"] if retrieved else 0.0
-
     search_q = candidates[-1]
 
+    # Gate 1: retrieval too weak → refuse before calling the model
     if not retrieved or top < settings.CONFIDENCE_THRESHOLD:
         Query.objects.create(user=_u(user), question=question,
                              query_type=Query.Type.PUBLIC, confidence=top,
@@ -76,19 +79,19 @@ def answer_public(question, user=None, lang="en"):
     prompt, cited = build_prompt(search_q, strong)
     raw = get_provider().generate(prompt)
 
-    if REFUSAL in raw:
+    # Gate 2: model says it can't answer from the sources → refuse
+    if _is_refusal(raw):
         Query.objects.create(user=_u(user), question=question,
                              query_type=Query.Type.PUBLIC, confidence=top,
                              status=Query.Status.REFUSED)
-        return {"status": "answered", "confidence": top, "answer": raw,
-            "citations": _citations(_used_citations(raw, cited))}
+        return {"status": "refused", "confidence": top,
+                "message": "The approved sources do not answer this."}
 
     Query.objects.create(user=_u(user), question=question,
                          query_type=Query.Type.PUBLIC, confidence=top,
                          status=Query.Status.ANSWERED, answer_text=raw)
     return {"status": "answered", "confidence": top, "answer": raw,
-            "citations": _citations(_used_citations(raw, cited)),
-            "reuse": _reuse_payload(reuse)}
+            "citations": _citations(_used_citations(raw, cited))}
 
 
 def submit_media(question, email="", org="", media_kind="media_response", user=None):
@@ -103,7 +106,7 @@ def submit_media(question, email="", org="", media_kind="media_response", user=N
     if retrieved and top >= settings.CONFIDENCE_THRESHOLD:
         prompt, built = build_prompt(question, strong)
         raw = get_provider().generate(prompt)
-        if REFUSAL in raw:
+        if _is_refusal(raw):
             draft_text, gap = "", True
         else:
             draft_text, cited, gap = raw, _used_citations(raw, built), False
