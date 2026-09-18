@@ -59,3 +59,33 @@ ROOT_URLCONF = "config.urls"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "ollama")
 CONFIDENCE_THRESHOLD = float(os.environ.get("CONFIDENCE_THRESHOLD", "0.35"))
+
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "Africa/Johannesburg"
+USE_I18N = True
+USE_TZ = True
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
+AUTH_PASSWORD_VALIDATORS = [
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+]
+
+WSGI_APPLICATION = "config.wsgi.application"
+STATIC_URL = "static/"

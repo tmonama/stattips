@@ -1,4 +1,4 @@
-from datetime import date
+from django.utils import timezone
 from django.core.management.base import BaseCommand
 from pypdf import PdfReader
 from core.models import Source, Chunk
@@ -21,7 +21,7 @@ class Command(BaseCommand):
         source = Source.objects.create(
             title=o["title"], publication_code=o["code"], source_url=o["url"],
             status=Source.Status.APPROVED if o["approve"] else Source.Status.PENDING,
-            approved_at=date.today() if o["approve"] else None,
+            approved_at=timezone.now() if o["approve"] else None,
         )
         idx = 0
         for page_no, page in enumerate(reader.pages, start=1):

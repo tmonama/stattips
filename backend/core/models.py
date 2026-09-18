@@ -68,6 +68,9 @@ class Query(models.Model):
     status = models.CharField(max_length=16, choices=Status.choices)
     answer_text = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    contact_email = models.EmailField(blank=True, default="")
+    organisation = models.CharField(max_length=255, blank=True, default="")
+    media_kind = models.CharField(max_length=24, blank=True, default="media_response")
 
 
 class Draft(models.Model):
@@ -87,10 +90,20 @@ class Draft(models.Model):
     final_text = models.TextField(blank=True)
     reviewed_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    reject_reason = models.TextField(blank=True, default="")
 
 
 class ApprovedResponse(models.Model):
-    question = models.TextField()
+    class Kind(models.TextChoices):
+        MEDIA = "media_response", "Media response"
+        PRESS = "press_release", "Press release"
+        STATEMENT = "statement", "Official statement"
+        FAQ = "faq", "FAQ"
+        OTHER = "other", "Other messaging"
+
+    kind = models.CharField(max_length=24, choices=Kind.choices, default=Kind.MEDIA)
+    title = models.CharField(max_length=255, blank=True, default="")
+    question = models.TextField(blank=True, default="")
     response_text = models.TextField()
     embedding = VectorField(dimensions=EMBED_DIM)
     source_draft = models.ForeignKey(Draft, null=True, blank=True, on_delete=models.SET_NULL)

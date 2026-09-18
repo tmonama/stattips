@@ -9,12 +9,12 @@ class WorkersAIProvider(LLMProvider):
         self.token = os.environ["CF_API_TOKEN"]
         self.model = os.environ.get("CF_TEXT_MODEL", "@cf/meta/llama-3.1-8b-instruct")
 
-    def generate(self, prompt):
+    def generate(self, prompt, max_tokens=512):
         url = f"https://api.cloudflare.com/client/v4/accounts/{self.account}/ai/run/{self.model}"
         r = requests.post(
             url,
             headers={"Authorization": f"Bearer {self.token}"},
-            json={"messages": [{"role": "user", "content": prompt}], "temperature": 0.1},
+            json={"messages": [{"role": "user", "content": prompt}], "temperature": 0.1, "max_tokens": max_tokens},
             timeout=60,
         )
         r.raise_for_status()
