@@ -3,3 +3,8 @@
 __pycache__/
 node_modules/
 .DS_Store
+backend/translator/nllb-600M-int8/
+backend/seed/*.pdf
+backend/.env
+translator/.venv/
+backend/.venv/

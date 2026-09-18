@@ -73,3 +73,10 @@ export default defineConfig([
 ])
 
 ```
+## Setup — large files (not in git)
+
+**Translation model** (~600 MB), into `backend/translator/nllb-600M-int8/`:
+    python -c "from huggingface_hub import snapshot_download; snapshot_download('entai2965/nllb-200-distilled-600M-ctranslate2', local_dir='backend/translator/nllb-600M-int8')"
+
+**Seed PDFs:** download the listed Stats SA publications into `backend/seed/`, then:
+    python manage.py ingest seed/<file>.pdf --title "..." --code "..." --url "..." --approve
