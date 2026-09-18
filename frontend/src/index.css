@@ -1271,10 +1271,25 @@ button {
     --sidebar-chip: rgba(255,255,255,.07);
   }
 }
-.sidebar { background: var(--sidebar-bg); color: var(--sidebar-ink); border-right: 1px solid var(--sidebar-border); }
-.side-brand .mark { background: var(--sidebar-chip); }
-.side-brand .txt b { color: var(--sidebar-ink); }
-.side-brand .txt span { color: var(--sidebar-muted); }
+
+.sidebar { 
+  background: var(--sidebar-bg); 
+  color: var(--sidebar-ink); 
+  border-right: 1px solid var(--sidebar-border); 
+}
+
+.side-brand .mark {
+   background: var(--sidebar-chip); 
+}
+
+.side-brand .txt b { 
+  color: var(--sidebar-ink); 
+}
+
+.side-brand .txt span { 
+  color: var(--sidebar-muted); 
+}
+
 .side-nav a { color: var(--sidebar-muted); }
 .side-nav a:hover { background: var(--sidebar-hover); color: var(--sidebar-ink); }
 .side-nav a.active { background: var(--sidebar-active); color: var(--sidebar-active-ink); border: 1px solid rgba(0,168,89,.35); }
