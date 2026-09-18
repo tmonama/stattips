@@ -87,13 +87,6 @@ function Assistant({ result, lang }: { result: PublicAnswer; lang: string }) {
           </ol>
         </div>
       )}
-
-      {reuse && (
-        <div className="reuse-note">
-          <span className="badge badge-official">Previously approved response</span>
-          <p>{reuse.response}</p>
-        </div>
-      )}
     </div>
   );
 }

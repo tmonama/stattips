@@ -71,8 +71,7 @@ def answer_public(question, user=None, lang="en"):
                              query_type=Query.Type.PUBLIC, confidence=top,
                              status=Query.Status.REFUSED)
         return {"status": "refused", "confidence": top,
-                "message": "No approved Stats SA source covers this question.",
-                "reuse": _reuse_payload(reuse)}
+                "message": "The approved sources do not answer this."}
 
     prompt, cited = build_prompt(search_q, strong)
     raw = get_provider().generate(prompt)
@@ -81,9 +80,8 @@ def answer_public(question, user=None, lang="en"):
         Query.objects.create(user=_u(user), question=question,
                              query_type=Query.Type.PUBLIC, confidence=top,
                              status=Query.Status.REFUSED)
-        return {"status": "refused", "confidence": top,
-                "message": "The approved sources do not answer this.",
-                "reuse": _reuse_payload(reuse)}
+        return {"status": "answered", "confidence": top, "answer": raw,
+            "citations": _citations(_used_citations(raw, cited))}
 
     Query.objects.create(user=_u(user), question=question,
                          query_type=Query.Type.PUBLIC, confidence=top,

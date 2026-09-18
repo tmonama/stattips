@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getTextSize, getContrast, setTextSize, setContrast } from "../lib/a11y";
+import { MdAccessible } from "react-icons/md";
 
 export default function A11yMenu() {
   const [ts, setTs] = useState(getTextSize());
@@ -9,7 +10,7 @@ export default function A11yMenu() {
 
   return (
     <details className="a11y">
-      <summary aria-label="Accessibility options">♿ Access</summary>
+      <summary aria-label="Accessibility options"><MdAccessible size={14} color="#ffff" /> Access</summary>
       <div className="a11y-panel" role="group" aria-label="Accessibility settings">
         <div className="a11y-group">
           <h4>Text size</h4>

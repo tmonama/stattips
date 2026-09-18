@@ -708,12 +708,13 @@ button {
 .media-actions {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
   gap: 12px;
   margin-top: 6px;
 }
 
 .media-submit {
-  align-self: flex-start;
   background: var(--grad-yg);
   color: #0b140f;
   border: none;
@@ -1429,7 +1430,7 @@ button {
 
 /* A11y menu */
 .a11y { position: relative; }
-.a11y > summary { list-style: none; cursor: pointer; font-size: 13px; font-weight: 600; padding: 8px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-surface); color: var(--ink); }
+.a11y > summary { display: flex; align-items: center; gap: 5px; list-style: none; cursor: pointer; font-size: 13px; font-weight: 600; padding: 8px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-surface); color: var(--ink); }
 .a11y > summary::-webkit-details-marker { display: none; }
 .a11y-panel { position: absolute; right: 0; top: calc(100% + 8px); width: 240px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-popover); padding: 14px; z-index: 200; }
 .a11y-group { margin-bottom: 14px; } .a11y-group:last-child { margin-bottom: 0; }
